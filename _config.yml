@@ -1,2 +1,9 @@
 remote_theme: samarsault/texture
 author: Caden Xu
+texture:
+  title: Caden Xu
+  tagline: Student at Cornell University
+  date_format: "%b %-d, %Y"
+  showPicker: false
+  style: green
+  
