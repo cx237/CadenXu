@@ -6,4 +6,6 @@ texture:
   date_format: "%b %-d, %Y"
   showPicker: false
   style: green
-  
+  navigation:
+    - title: About
+      url: "/about"
