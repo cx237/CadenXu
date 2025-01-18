@@ -5,6 +5,7 @@ description: Color Composite video generation technique
 date:   2025-01-17
 ---
 
+Unfortunately, math rendering seems broken! I'll try to fix at a later time.
 
 # Color Composite Video via IQ modulation
 
