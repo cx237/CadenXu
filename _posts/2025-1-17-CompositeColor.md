@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  Composite Color Video via IQ modulation
+title:  "Composite Color Video via IQ modulation"
 description: Color Composite video generation technique
 date:   2025-01-17
 ---
