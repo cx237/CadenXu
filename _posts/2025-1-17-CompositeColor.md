@@ -63,9 +63,11 @@ Additionally, if you wanted a larger gamut of colors, you'd need more delays, mo
 
  A hand-wavey mathematical explanation is that any sinusoidal wave (at any phase and amplitude) of a single frequency can can be composed of a sine wave of that single frequency summed with a cosine wave of that single frequency. By controlling the amount of cosine (**I**n-phase) and sine (**Q**uadature) components you add, you control the amplitude of the output waveform and the phase of the output waveform. People may be familiar that this is just the polar representation of a rectangular complex sinusoid. [Here's](https://www.desmos.com/calculator/jjnpxndodz) a quick demo in Desmos for a visual. 
 
+```math
 $$
 A(t)\cdot \cos({\omega}t +\phi)=A_{cos}(t)\cdot \cos({\omega}t) + A_{sin}(t)\cdot \sin({\omega}t) 
 $$
+```
 
 For those who like a practical analogy, think of a water faucet with a hot water control and a cold water control. You can change the flow rate and temperature of the faucet (amplitude) and the temperature (phase) by altering both the hot tap and the cold tap. 
 
@@ -75,10 +77,11 @@ This ties back to composite video generation as our goal is just generating a wa
 
 First of all, we will need to generate sine and cosine components. Since a sine is a 90 degree offset from a cosine via the relation:
 
+```math
 $$
 \cos({\omega}t) = \sin({\omega}t+90\degree) 
 $$
-
+```
 We need circuitry that performs 90 degree phase shifts.
 
 Doing a 90 degree phase shift (AKA Hilbert transform) that works for all frequencies (wideband) is quite annoying in electronics. This [site](https://markimicrowave.com/technical-resources/application-notes/top-7-ways-to-create-a-quadrature-90-phase-shift/) has a few ways, some of them quite complex. Fortunately, we need to do so for only one frequency (the color carrier at 3.579 MHz). This can be done with some tuned RC or RLC filter networks. Even better, most TVs can tolerate filtered square waves in lieu of sinusoids. We can generate a 3.579\*2 MHz square wave and do phase shifting using a well-known design using only a few flip flop chips. 
@@ -94,7 +97,7 @@ images from Marki-Microwave
 
 To control the sine and cosine amplitude, we need to multiply the sine-like square waves with some value and the cosine-like square waves with a digital value, controlled by circuitry within a homebrew computer. We could either build two analog multipliers and two DACs to do this task, or we can build a multiplying DAC (MDAC).
 
-Preliminarily, I tried a design like this. After fiddling with falstad circuit simulator for a while, I created a [MDAC design](https://tinyurl.com/22ompjze) and strung two of them together. Notice that our MDAC has to perform two quadrant multiplication. This means that our output has to swing between $+\sin({\omega}t)$ and $-\sin({\omega}t)$, or $+\cos({\omega}t)$ and $-\cos({\omega}t)$.
+Preliminarily, I tried a design like this. After fiddling with falstad circuit simulator for a while, I created a [MDAC design](https://tinyurl.com/22ompjze) and strung two of them together. Notice that our MDAC has to perform two quadrant multiplication. This means that our output has to swing between $`+\sin({\omega}t)`$ and $`-\sin({\omega}t)`$, or $`+\cos({\omega}t)`$ and $`-\cos({\omega}t)`$.
 
 Intuitively, this means the output has of each MDAC has to be able to "flip" the signal depending on the digital input. This is such that we can get all 360 degrees of phase shift (refer back to the desmos demo, notice that we need to multiply by a negative number to get all phase shifts).
 
@@ -112,7 +115,7 @@ Although this design works, it could be optimized further. Since our sines and c
 | 1   | 0   | 1   |
 | 1   | 1   | 0   |
 
-Notice that when $A = 0, B = Y$, and when $A = 1, B = \lnot Y$. This means that rather than selecting between the noninverting and inverting outputs of the flip flops, we can choose to invert or not using a XOR gate. This makes things a bit cleaner to implement in hardware. 
+Notice that when $`A = 0, B = Y`$, and when $`A = 1, B = \lnot Y`$. This means that rather than selecting between the noninverting and inverting outputs of the flip flops, we can choose to invert or not using a XOR gate. This makes things a bit cleaner to implement in hardware. 
 
 ![preliminary MDAC design](https://cx237.github.io/CadenXu/images/falstadMDAC2.png)
 
