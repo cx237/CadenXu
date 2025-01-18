@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title:  Composite Color Video via IQ modulation
@@ -26,7 +25,8 @@ Generally, composite color signals are decomposed into hue, saturation, and lumi
 
 
 
-![image of color composite waveform][https://www.edn.com/wp-content/uploads/media-1050360-c0195-figure2.gif]
+![image of color composite waveform](https://i.sstatic.net/cIQVf.png)
+
 This image is from [EDN magazine](https://www.edn.com/measuring-composite-video-signal-performance-requires-understanding-differential-gain-and-phase-part-1-of-2/). 
 
 These signals are designed to interfere with each other as little as possible (with varying degrees of success, see [dot crawl](https://en.wikipedia.org/wiki/Dot_crawl) and [artifact colors](https://en.wikipedia.org/wiki/Composite_artifact_colors)) so that color signals can be ignored by monochrome televisions for backwards compatibility.
@@ -49,7 +49,8 @@ The [TV Typewriter Cookbook](https://www.tinaja.com/ebooks/tvtcb.pdf) shows an e
 
 The delay of the inverters though, unfortunately, are pretty dependent on PVT: chip (**P**rocess), supply voltage (**V**oltage), and **T**emperature. Thus, replacing the 4050 hex with a 74 series part may yield much different results. Each 4050 hex buffer has different delay too, looking at the datasheet. 
 
-![4050 datasheet excerpt from TI][https://cx237.github.io/CadenXu/images/4050pd.png]
+![4050 datasheet excerpt from TI](https://cx237.github.io/CadenXu/images/4050pd.png)
+
 [Datasheet](https://www.ti.com/lit/ds/symlink/cd4049ub.pdf) excerpt from Texas Instruments
 
 These parts have a typical propagation delay and a maximum propagation delay specified for each part, and the actual delay may be anything in between. Furthermore, the propagation delay is evidently dependent on supply voltage. This means that depending on part and power supply the output color can be different. This is undesirable. 
@@ -77,14 +78,15 @@ First of all, we will need to generate sine and cosine components. Since a sine 
 $$
 \cos({\omega}t) = \sin({\omega}t+90\degree) 
 $$
+
 We need circuitry that performs 90 degree phase shifts.
 
 Doing a 90 degree phase shift (AKA Hilbert transform) that works for all frequencies (wideband) is quite annoying in electronics. This [site](https://markimicrowave.com/technical-resources/application-notes/top-7-ways-to-create-a-quadrature-90-phase-shift/) has a few ways, some of them quite complex. Fortunately, we need to do so for only one frequency (the color carrier at 3.579 MHz). This can be done with some tuned RC or RLC filter networks. Even better, most TVs can tolerate filtered square waves in lieu of sinusoids. We can generate a 3.579\*2 MHz square wave and do phase shifting using a well-known design using only a few flip flop chips. 
 
 
-![Sine and cosine generator][https://markimicrowave.com/assets/7737bbd5-a3e1-4097-a27e-c0bd1a38be5b]
+![Sine and cosine generator](https://markimicrowave.com/assets/7737bbd5-a3e1-4097-a27e-c0bd1a38be5b)
 
-![waveforms][https://markimicrowave.com/assets/dabbdc2e-1e26-4db0-9c1e-24f9cabe531b]
+![waveforms](https://markimicrowave.com/assets/dabbdc2e-1e26-4db0-9c1e-24f9cabe531b)
 images from Marki-Microwave
 
 
@@ -97,7 +99,7 @@ Preliminarily, I tried a design like this. After fiddling with falstad circuit s
 Intuitively, this means the output has of each MDAC has to be able to "flip" the signal depending on the digital input. This is such that we can get all 360 degrees of phase shift (refer back to the desmos demo, notice that we need to multiply by a negative number to get all phase shifts).
 
 
-![preliminary MDAC design][https://cx237.github.io/CadenXu/images/falstadMDAC1.png]
+![preliminary MDAC design](https://cx237.github.io/CadenXu/images/falstadMDAC1.png)
 
 This design uses the inverting and noninverting outputs of the flip flops to drive an R2R DAC. The R2R DAC selects between the inverting copy and noninverting copy to be able to do the 4 quadrant multiplication.  Here, I've opted to use 4.7kOhm instead of 5kOhm resistors to stick with the [E preferred numbers](https://en.wikipedia.org/wiki/E_series_of_preferred_numbers).  The outputs have DC bias to them, but this can be removed easily with a capacitor.  
 
@@ -109,9 +111,10 @@ Although this design works, it could be optimized further. Since our sines and c
 | 0   | 1   | 1   |
 | 1   | 0   | 1   |
 | 1   | 1   | 0   |
+
 Notice that when $A = 0, B = Y$, and when $A = 1, B = \lnot Y$. This means that rather than selecting between the noninverting and inverting outputs of the flip flops, we can choose to invert or not using a XOR gate. This makes things a bit cleaner to implement in hardware. 
 
-![preliminary MDAC design][https://cx237.github.io/CadenXu/images/falstadMDAC2.png]
+![preliminary MDAC design](https://cx237.github.io/CadenXu/images/falstadMDAC2.png)
 
 This poises us to add the sine and cosine components, or mix the hot and cold waters, however you want to look at it. 
 
@@ -124,13 +127,14 @@ This can simply be done with a few resistors between the in-phase and quadrature
 ### Encoding colors
 
 Essentially, rather than the color circle defined in Sagar's blog which shows the correspondence between color, phase, and amplitude (in polar coordinates, for those who are mathematically minded):
-![polar color chart][https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhCWyjWQRex64g7FzAwxHqrN9kcJgg27D8pnsN0kXbH2kYCYC0pvBiElhzfF30fv_exvVVw2dGEgq4wphFyrf6uEhwjA4g8p6xW3bcl5BPDGblce0zoXm8mIIg0U4UkDPXxWOe1xSjSOMNm/s1600/NTSC_vectorograph.png]
+![polar color chart](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhCWyjWQRex64g7FzAwxHqrN9kcJgg27D8pnsN0kXbH2kYCYC0pvBiElhzfF30fv_exvVVw2dGEgq4wphFyrf6uEhwjA4g8p6xW3bcl5BPDGblce0zoXm8mIIg0U4UkDPXxWOe1xSjSOMNm/s1600/NTSC_vectorograph.png)
 
 from [Sagar's blog](https://sagargv.blogspot.com/2011/04/ntsc-demystified-part-2-color-encoding.html)
 
 We use one that is rectangularly defined in terms of how much sine and cosine component there is. This color space is known as YIQ and should be easily encoded in a lookup table or a ROM.
 
-![YIQ plane][https://upload.wikimedia.org/wikipedia/commons/8/82/YIQ_IQ_plane.svg]
+![YIQ plane](https://upload.wikimedia.org/wikipedia/commons/8/82/YIQ_IQ_plane.svg)
+
 from [Wikimedia](https://commons.wikimedia.org/wiki/File:YIQ_IQ_plane.svg)
 ### Benefits and some other notes
 
