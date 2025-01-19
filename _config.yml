@@ -5,7 +5,7 @@ kramdown:
     math_engine: katex
 texture:
   title: Caden Xu
-  tagline: Student at Cornell University
+  tagline: ECE 2027, Cornell University
   date_format: "%b %-d, %Y"
   showPicker: false
   style: green
