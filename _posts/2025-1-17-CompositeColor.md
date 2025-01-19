@@ -64,9 +64,7 @@ Additionally, if you wanted a larger gamut of colors, you'd need more delays, mo
 
  A hand-wavey mathematical explanation is that any sinusoidal wave (at any phase and amplitude) of a single frequency can can be composed of a sine wave of that single frequency summed with a cosine wave of that single frequency. By controlling the amount of cosine (**I**n-phase) and sine (**Q**uadature) components you add, you control the amplitude of the output waveform and the phase of the output waveform. People may be familiar that this is just the polar representation of a rectangular complex sinusoid. [Here's](https://www.desmos.com/calculator/jjnpxndodz) a quick demo in Desmos for a visual. 
 
-$$
-A(t)\cdot \cos({\omega}t +\phi)=A_{cos}(t)\cdot \cos({\omega}t) + A_{sin}(t)\cdot \sin({\omega}t) 
-$$
+$$A(t)\cdot \cos({\omega}t +\phi)=A_{cos}(t)\cdot \cos({\omega}t) + A_{sin}(t)\cdot \sin({\omega}t)$$
 
 For those who like a practical analogy, think of a water faucet with a hot water control and a cold water control. You can change the flow rate and temperature of the faucet (amplitude) and the temperature (phase) by altering both the hot tap and the cold tap. 
 
