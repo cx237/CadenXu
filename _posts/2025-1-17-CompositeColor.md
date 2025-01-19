@@ -94,7 +94,7 @@ images from Marki-Microwave
 
 To control the sine and cosine amplitude, we need to multiply the sine-like square waves with some value and the cosine-like square waves with a digital value, controlled by circuitry within a homebrew computer. We could either build two analog multipliers and two DACs to do this task, or we can build a multiplying DAC (MDAC).
 
-Preliminarily, I tried a design like this. After fiddling with falstad circuit simulator for a while, I created a [MDAC design](https://tinyurl.com/22ompjze) and strung two of them together. Notice that our MDAC has to perform two quadrant multiplication. This means that our output has to swing between $`+\sin({\omega}t)`$ and $`-\sin({\omega}t)`$, or $`+\cos({\omega}t)`$ and $`-\cos({\omega}t)`$.
+Preliminarily, I tried a design like this. After fiddling with falstad circuit simulator for a while, I created a [MDAC design](https://tinyurl.com/22ompjze) and strung two of them together. Notice that our MDAC has to perform two quadrant multiplication. This means that our output has to swing between $+\sin({\omega}t)$ and $-\sin({\omega}t)$, or $+\cos({\omega}t)$ and $-\cos({\omega}t)$.
 
 Intuitively, this means the output has of each MDAC has to be able to "flip" the signal depending on the digital input. This is such that we can get all 360 degrees of phase shift (refer back to the desmos demo, notice that we need to multiply by a negative number to get all phase shifts).
 
@@ -112,7 +112,7 @@ Although this design works, it could be optimized further. Since our sines and c
 | 1   | 0   | 1   |
 | 1   | 1   | 0   |
 
-Notice that when $`A = 0, B = Y`$, and when $`A = 1, B = \lnot Y`$. This means that rather than selecting between the noninverting and inverting outputs of the flip flops, we can choose to invert or not using a XOR gate. This makes things a bit cleaner to implement in hardware. 
+Notice that when $A = 0, B = Y$, and when $A = 1, B = \lnot Y$. This means that rather than selecting between the noninverting and inverting outputs of the flip flops, we can choose to invert or not using a XOR gate. This makes things a bit cleaner to implement in hardware. 
 
 ![preliminary MDAC design](https://cx237.github.io/CadenXu/images/falstadMDAC2.png)
 
