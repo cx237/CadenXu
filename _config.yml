@@ -15,4 +15,6 @@ texture:
       url: "/"
     - title: About
       url: "/about"
- 
+  social_links:
+    github:  cx237
+    linkedIn: in/caden-xu-7b34162b9
