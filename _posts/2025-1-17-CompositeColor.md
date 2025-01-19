@@ -64,11 +64,9 @@ Additionally, if you wanted a larger gamut of colors, you'd need more delays, mo
 
  A hand-wavey mathematical explanation is that any sinusoidal wave (at any phase and amplitude) of a single frequency can can be composed of a sine wave of that single frequency summed with a cosine wave of that single frequency. By controlling the amount of cosine (**I**n-phase) and sine (**Q**uadature) components you add, you control the amplitude of the output waveform and the phase of the output waveform. People may be familiar that this is just the polar representation of a rectangular complex sinusoid. [Here's](https://www.desmos.com/calculator/jjnpxndodz) a quick demo in Desmos for a visual. 
 
-```math
 $$
 A(t)\cdot \cos({\omega}t +\phi)=A_{cos}(t)\cdot \cos({\omega}t) + A_{sin}(t)\cdot \sin({\omega}t) 
 $$
-```
 
 For those who like a practical analogy, think of a water faucet with a hot water control and a cold water control. You can change the flow rate and temperature of the faucet (amplitude) and the temperature (phase) by altering both the hot tap and the cold tap. 
 
@@ -78,11 +76,11 @@ This ties back to composite video generation as our goal is just generating a wa
 
 First of all, we will need to generate sine and cosine components. Since a sine is a 90 degree offset from a cosine via the relation:
 
-```math
+
 $$
 \cos({\omega}t) = \sin({\omega}t+90\degree) 
 $$
-```
+
 We need circuitry that performs 90 degree phase shifts.
 
 Doing a 90 degree phase shift (AKA Hilbert transform) that works for all frequencies (wideband) is quite annoying in electronics. This [site](https://markimicrowave.com/technical-resources/application-notes/top-7-ways-to-create-a-quadrature-90-phase-shift/) has a few ways, some of them quite complex. Fortunately, we need to do so for only one frequency (the color carrier at 3.579 MHz). This can be done with some tuned RC or RLC filter networks. Even better, most TVs can tolerate filtered square waves in lieu of sinusoids. We can generate a 3.579\*2 MHz square wave and do phase shifting using a well-known design using only a few flip flop chips. 
