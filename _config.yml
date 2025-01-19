@@ -1,6 +1,8 @@
 remote_theme: samarsault/texture
 author: Caden Xu
 markdown: kramdown
+kramdown:
+    math_engine: katex
 texture:
   title: Caden Xu
   tagline: Student at Cornell University
