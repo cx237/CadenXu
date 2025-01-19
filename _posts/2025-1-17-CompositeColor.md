@@ -5,8 +5,6 @@ description: Color Composite video generation technique
 date:   2025-01-17
 ---
 
-Unfortunately, math rendering seems broken! I'll try to fix at a later time.
-
 # Color Composite Video via IQ modulation
 
 ## Synopsis 
@@ -25,8 +23,7 @@ Composite video signals can come in a few general flavors depending on your regi
 Generally, composite color signals are decomposed into hue, saturation, and luminance/brightness. The color component signals (hue and saturation) are superimposed on the monochrome luminance signal. The color signals are represented by a high frequency waveform called the color carrier, and the monochrome/luminance signal is the average offset of this high frequency waveform. The phase of the color carrier governs the hue, and the amplitude governs the saturation. In NTSC, the frequency is fixed at ~3.579 MHz. Thus, this signal can be represented as the mathematical sum of the color waveform and the monochrome waveform. 
 
 
-
-![image of color composite waveform](https://i.sstatic.net/cIQVf.png)
+![image of color composite waveform](https://cx237.github.io/CadenXu/images/compvideo.png)
 
 This image is from [EDN magazine](https://www.edn.com/measuring-composite-video-signal-performance-requires-understanding-differential-gain-and-phase-part-1-of-2/). 
 
@@ -142,5 +139,5 @@ The goal of this configuration is to be less sensitive to component variations. 
 
 Furthermore, this design scales exponentially for colors as using 2 74HC136 chips (4x XOR gates) should theoretically give you $2^{4} *2^{4} = 256$ colors, although your actual performance may vary due to resistor tolerances. 
 
-On a retrocomputing sidenote, this IQ modulation technique may have been used in the VIC chips from Commodore ! Al Charpentier, credited in the invention of the VIC-I and VIC-II published this patent back in 1983: https://patents.google.com/patent/US4551682A/en. This outlines a "sine-cosine generator is provided for use in color television signal generators"... this probably is for IQ modulation!
+On a retrocomputing sidenote, this IQ modulation technique may have been used in the VIC chips from Commodore! Al Charpentier, credited in the invention of the VIC-I and VIC-II published this patent back in 1983: [link](https://patents.google.com/patent/US4551682A/en). This outlines a "sine-cosine generator is provided for use in color television signal generators"... this probably is for IQ modulation!
 
